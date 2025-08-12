@@ -51,7 +51,11 @@ export default function Register() {
     } catch (error: any) {
       let errorMessage = 'Erro ao criar conta. Tente novamente.';
       
-      if (error.code === 'auth/email-already-in-use') {
+      if (error.name === 'ConfigurationError') {
+        errorMessage = 'Firebase não configurado. Verifique as instruções de configuração.';
+      } else if (error.code === 'auth/configuration-not-found') {
+        errorMessage = 'Autenticação não habilitada no Firebase. Configure o projeto no console Firebase.';
+      } else if (error.code === 'auth/email-already-in-use') {
         errorMessage = 'Este e-mail já está em uso.';
       } else if (error.code === 'auth/invalid-email') {
         errorMessage = 'E-mail inválido.';
@@ -59,8 +63,10 @@ export default function Register() {
         errorMessage = 'Senha muito fraca.';
       }
       
+      console.error('Registration error:', error);
+      
       toast({
-        title: "Erro",
+        title: "Erro de Configuração",
         description: errorMessage,
         variant: "destructive",
       });

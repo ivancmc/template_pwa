@@ -90,8 +90,16 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       console.log('Creating user profile in Firestore...');
       await setDoc(doc(db, 'users', result.user.uid), userProfile);
       console.log('User profile created successfully');
-    } catch (error) {
+    } catch (error: any) {
       console.error('Error in signUp function:', error);
+      
+      // Add specific handling for configuration error
+      if (error.code === 'auth/configuration-not-found') {
+        const configError = new Error('Firebase Authentication not configured. Please enable Email/Password authentication in Firebase Console.');
+        configError.name = 'ConfigurationError';
+        throw configError;
+      }
+      
       throw error; // Re-throw to be caught by the component
     }
   };
