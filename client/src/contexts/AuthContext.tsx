@@ -74,16 +74,26 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   };
 
   const signUp = async (email: string, password: string) => {
-    const result = await createUserWithEmailAndPassword(auth, email, password);
+    console.log('Starting sign up process for:', email);
     
-    // Create user profile in Firestore
-    const userProfile: UserProfile = {
-      name: '',
-      phone: '',
-      email: email
-    };
-    
-    await setDoc(doc(db, 'users', result.user.uid), userProfile);
+    try {
+      const result = await createUserWithEmailAndPassword(auth, email, password);
+      console.log('User created successfully:', result.user.uid);
+      
+      // Create user profile in Firestore
+      const userProfile: UserProfile = {
+        name: '',
+        phone: '',
+        email: email
+      };
+      
+      console.log('Creating user profile in Firestore...');
+      await setDoc(doc(db, 'users', result.user.uid), userProfile);
+      console.log('User profile created successfully');
+    } catch (error) {
+      console.error('Error in signUp function:', error);
+      throw error; // Re-throw to be caught by the component
+    }
   };
 
   const logout = async () => {

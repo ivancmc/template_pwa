@@ -10,6 +10,13 @@ const firebaseConfig = {
   appId: import.meta.env.VITE_FIREBASE_APP_ID || "demo-app-id",
 };
 
+console.log('Firebase config:', {
+  apiKey: firebaseConfig.apiKey ? 'API key loaded' : 'Using demo API key',
+  authDomain: firebaseConfig.authDomain,
+  projectId: firebaseConfig.projectId,
+  appId: firebaseConfig.appId ? 'App ID loaded' : 'Using demo app ID'
+});
+
 const app = initializeApp(firebaseConfig);
 
 export const auth = getAuth(app);
