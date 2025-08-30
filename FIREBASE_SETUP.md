@@ -1,8 +1,8 @@
 # Firebase Setup Instructions
 
-## Error: auth/configuration-not-found
+## Google Sign-In Configuration
 
-This error means Firebase Authentication is not enabled in your Firebase project. Here's how to fix it:
+To enable Google Sign-In in your Firebase project, follow these steps:
 
 ### Step 1: Enable Authentication
 1. Go to [Firebase Console](https://console.firebase.google.com/)
@@ -14,6 +14,11 @@ This error means Firebase Authentication is not enabled in your Firebase project
    - Click on "Email/Password"
    - Toggle "Enable" to ON
    - Click "Save"
+7. Enable **Google** authentication:
+   - Click on "Google"
+   - Toggle "Enable" to ON
+   - Enter your project support email
+   - Click "Save"
 
 ### Step 2: Set up Firestore (for user profiles)
 1. In the left sidebar, click on **Firestore Database**
@@ -22,14 +27,45 @@ This error means Firebase Authentication is not enabled in your Firebase project
 4. Select a location (choose the closest to you)
 5. Click **Done**
 
-### Step 3: Configure Authorized Domains (if needed)
+### Step 3: Configure Authorized Domains
 1. In Authentication > Settings > Authorized domains
 2. Add your Replit domain if it's not already there
 3. The domain should be something like: `your-repl-name.your-username.repl.co`
+4. For development, also add: `localhost` and `127.0.0.1`
+
+### Step 4: OAuth Consent Screen (Google Cloud Console)
+If you encounter OAuth issues:
+1. Go to [Google Cloud Console](https://console.cloud.google.com/)
+2. Select your Firebase project
+3. Go to "APIs & Services" > "OAuth consent screen"
+4. Configure the consent screen with your app information
+5. Add authorized domains
+
+## Features Implemented
+✅ **Email/Password Authentication**
+- User registration and login
+- Password validation
+- Error handling
+
+✅ **Google Sign-In**
+- One-click Google authentication
+- Automatic user profile creation
+- Popup-based sign-in flow
+
+✅ **User Profile Management**
+- Firestore integration for user data
+- Profile updates (name, phone)
+- Password change functionality
 
 ## Current Configuration
 - Project ID: authflow-pvhn3
 - API Key: ✅ Loaded
 - App ID: ✅ Loaded
+- Authentication Methods: Email/Password + Google Sign-In
 
-Once you complete these steps, the registration should work properly!
+## Troubleshooting
+- **Popup blocked**: Enable popups for your domain
+- **OAuth error**: Configure OAuth consent screen in Google Cloud Console
+- **Domain not authorized**: Add your domain to Firebase authorized domains
+
+Once you complete these steps, both email/password and Google authentication will work properly!

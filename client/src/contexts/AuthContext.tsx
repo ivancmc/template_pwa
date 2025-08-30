@@ -4,6 +4,8 @@ import {
   onAuthStateChanged,
   signInWithEmailAndPassword,
   createUserWithEmailAndPassword,
+  signInWithPopup,
+  GoogleAuthProvider,
   signOut,
   updatePassword,
   reauthenticateWithCredential,
@@ -23,6 +25,7 @@ interface AuthContextType {
   userProfile: UserProfile | null;
   loading: boolean;
   signIn: (email: string, password: string) => Promise<void>;
+  signInWithGoogle: () => Promise<void>;
   signUp: (email: string, password: string) => Promise<void>;
   logout: () => Promise<void>;
   changePassword: (currentPassword: string, newPassword: string) => Promise<void>;
@@ -30,6 +33,12 @@ interface AuthContextType {
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
+
+// Initialize Google provider
+const googleProvider = new GoogleAuthProvider();
+googleProvider.setCustomParameters({
+  prompt: 'select_account'
+});
 
 export function AuthProvider({ children }: { children: React.ReactNode }) {
   const [user, setUser] = useState<User | null>(null);
@@ -71,6 +80,43 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
   const signIn = async (email: string, password: string) => {
     await signInWithEmailAndPassword(auth, email, password);
+  };
+
+  const signInWithGoogle = async () => {
+    console.log('Starting Google sign in...');
+    
+    try {
+      const result = await signInWithPopup(auth, googleProvider);
+      console.log('Google sign in successful:', result.user.uid);
+      
+      // Check if user profile exists in Firestore
+      const userDoc = await getDoc(doc(db, 'users', result.user.uid));
+      
+      if (!userDoc.exists()) {
+        // Create user profile in Firestore
+        const userProfile: UserProfile = {
+          name: result.user.displayName || '',
+          phone: '',
+          email: result.user.email || ''
+        };
+        
+        console.log('Creating Google user profile in Firestore...');
+        await setDoc(doc(db, 'users', result.user.uid), userProfile);
+        console.log('Google user profile created successfully');
+      }
+    } catch (error: any) {
+      console.error('Error in Google sign in:', error);
+      
+      if (error.code === 'auth/popup-blocked') {
+        throw new Error('Popup foi bloqueado pelo navegador. Permita popups e tente novamente.');
+      } else if (error.code === 'auth/popup-closed-by-user') {
+        throw new Error('Login cancelado pelo usuário.');
+      } else if (error.code === 'auth/configuration-not-found') {
+        throw new Error('Google Sign-In não configurado. Configure no Firebase Console.');
+      }
+      
+      throw error;
+    }
   };
 
   const signUp = async (email: string, password: string) => {
@@ -133,6 +179,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     userProfile,
     loading,
     signIn,
+    signInWithGoogle,
     signUp,
     logout,
     changePassword,

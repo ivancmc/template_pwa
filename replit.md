@@ -27,8 +27,9 @@ Preferred communication style: Simple, everyday language.
 ### Authentication System
 - **Provider**: Firebase Authentication for secure user management
 - **Storage**: Firestore for user profile data
-- **Features**: Email/password authentication, profile updates, password changes
+- **Features**: Email/password authentication, Google Sign-In, profile updates, password changes
 - **Context**: React Context API for global authentication state management
+- **Google Integration**: Popup-based Google OAuth with automatic profile creation
 
 ### Database Design
 - **ORM**: Drizzle ORM with PostgreSQL dialect
@@ -52,7 +53,7 @@ Preferred communication style: Simple, everyday language.
 ## External Dependencies
 
 ### Authentication & Database
-- **Firebase**: Authentication and Firestore for user management and profile storage
+- **Firebase**: Authentication (Email/Password + Google Sign-In) and Firestore for user management and profile storage
 - **Neon Database**: PostgreSQL database service (configured via DATABASE_URL)
 - **Drizzle ORM**: Type-safe database operations with PostgreSQL
 

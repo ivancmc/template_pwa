@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { Link, useLocation } from 'wouter';
 import { UserPlus, ArrowLeft, Loader2 } from 'lucide-react';
+import { FaGoogle } from 'react-icons/fa';
 import { useAuth } from '@/contexts/AuthContext';
 import { useToast } from '@/hooks/use-toast';
 
@@ -9,8 +10,9 @@ export default function Register() {
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
   const [loading, setLoading] = useState(false);
+  const [googleLoading, setGoogleLoading] = useState(false);
   const [, setLocation] = useLocation();
-  const { signUp } = useAuth();
+  const { signUp, signInWithGoogle } = useAuth();
   const { toast } = useToast();
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -72,6 +74,23 @@ export default function Register() {
       });
     } finally {
       setLoading(false);
+    }
+  };
+
+  const handleGoogleSignIn = async () => {
+    setGoogleLoading(true);
+    
+    try {
+      await signInWithGoogle();
+      setLocation('/');
+    } catch (error: any) {
+      toast({
+        title: "Erro",
+        description: error.message || 'Erro no login com Google. Tente novamente.',
+        variant: "destructive",
+      });
+    } finally {
+      setGoogleLoading(false);
     }
   };
 
@@ -158,7 +177,7 @@ export default function Register() {
           {/* Submit Button */}
           <button 
             type="submit" 
-            disabled={loading}
+            disabled={loading || googleLoading}
             className="w-full bg-emerald-500 text-white py-4 px-4 rounded-lg font-medium hover:bg-emerald-600 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:ring-offset-2 transition-colors disabled:opacity-50"
             data-testid="button-submit"
           >
@@ -170,6 +189,29 @@ export default function Register() {
             ) : (
               'Criar Conta'
             )}
+          </button>
+
+          {/* Divider */}
+          <div className="flex items-center my-6">
+            <div className="flex-1 border-t border-slate-300"></div>
+            <div className="mx-4 text-slate-500 text-sm">ou</div>
+            <div className="flex-1 border-t border-slate-300"></div>
+          </div>
+
+          {/* Google Sign-In Button */}
+          <button
+            type="button"
+            onClick={handleGoogleSignIn}
+            disabled={loading || googleLoading}
+            className="w-full flex justify-center items-center py-4 px-4 border border-slate-300 text-base font-medium rounded-lg text-slate-700 bg-white hover:bg-slate-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-emerald-500 disabled:opacity-50 disabled:cursor-not-allowed transition-all shadow-sm"
+            data-testid="button-google-signin"
+          >
+            {googleLoading ? (
+              <Loader2 className="animate-spin h-5 w-5 mr-3" />
+            ) : (
+              <FaGoogle className="h-5 w-5 mr-3 text-red-500" />
+            )}
+            Continuar com Google
           </button>
         </form>
       </div>
