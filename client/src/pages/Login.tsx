@@ -163,6 +163,13 @@ export default function Login() {
             Continuar com Google
           </button>
 
+          {/* Forgot Password Link */}
+          <div className="text-center">
+            <Link href="/forgot-password" className="text-blue-600 hover:text-blue-700 font-medium">
+              Esqueceu a senha?
+            </Link>
+          </div>
+
           {/* Register Link */}
           <div className="text-center">
             <span className="text-slate-600">Não tem uma conta?</span>

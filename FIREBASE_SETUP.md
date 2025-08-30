@@ -64,6 +64,7 @@ If you encounter OAuth issues:
 - Firestore integration for user data
 - Profile updates (name, phone)
 - Password change functionality
+- Password reset via email
 
 ## Current Configuration
 - Project ID: authflow-pvhn3

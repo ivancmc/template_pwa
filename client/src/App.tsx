@@ -8,6 +8,7 @@ import { useState } from "react";
 
 import Login from "@/pages/Login";
 import Register from "@/pages/Register";
+import ForgotPassword from "@/pages/ForgotPassword";
 import Home from "@/pages/Home";
 import Profile from "@/pages/Profile";
 import ProtectedRoute from "@/components/ProtectedRoute";
@@ -38,6 +39,7 @@ function Router() {
     <Switch>
       <Route path="/login" component={Login} />
       <Route path="/register" component={Register} />
+      <Route path="/forgot-password" component={ForgotPassword} />
       <Route path="/">
         <ProtectedRoute>
           <MainApp />

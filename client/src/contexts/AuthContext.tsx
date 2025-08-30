@@ -9,7 +9,8 @@ import {
   signOut,
   updatePassword,
   reauthenticateWithCredential,
-  EmailAuthProvider
+  EmailAuthProvider,
+  sendPasswordResetEmail
 } from 'firebase/auth';
 import { doc, getDoc, setDoc, updateDoc } from 'firebase/firestore';
 import { auth, db } from '@/lib/firebase';
@@ -30,6 +31,7 @@ interface AuthContextType {
   logout: () => Promise<void>;
   changePassword: (currentPassword: string, newPassword: string) => Promise<void>;
   updateProfile: (data: Partial<UserProfile>) => Promise<void>;
+  resetPassword: (email: string) => Promise<void>;
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
@@ -177,6 +179,27 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     setUserProfile(updatedProfile as UserProfile);
   };
 
+  const resetPassword = async (email: string) => {
+    console.log('Sending password reset email to:', email);
+    
+    try {
+      await sendPasswordResetEmail(auth, email);
+      console.log('Password reset email sent successfully');
+    } catch (error: any) {
+      console.error('Error sending password reset email:', error);
+      
+      if (error.code === 'auth/user-not-found') {
+        throw new Error('Usuário não encontrado com este e-mail.');
+      } else if (error.code === 'auth/invalid-email') {
+        throw new Error('E-mail inválido.');
+      } else if (error.code === 'auth/too-many-requests') {
+        throw new Error('Muitas tentativas. Tente novamente mais tarde.');
+      }
+      
+      throw error;
+    }
+  };
+
   const value = {
     user,
     userProfile,
@@ -186,7 +209,8 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     signUp,
     logout,
     changePassword,
-    updateProfile
+    updateProfile,
+    resetPassword
   };
 
   return (

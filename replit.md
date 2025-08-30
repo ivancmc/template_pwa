@@ -27,7 +27,7 @@ Preferred communication style: Simple, everyday language.
 ### Authentication System
 - **Provider**: Firebase Authentication for secure user management
 - **Storage**: Firestore for user profile data
-- **Features**: Email/password authentication, Google Sign-In, profile updates, password changes
+- **Features**: Email/password authentication, Google Sign-In, profile updates, password changes, password reset
 - **Context**: React Context API for global authentication state management
 - **Google Integration**: Popup-based Google OAuth with automatic profile creation
 
