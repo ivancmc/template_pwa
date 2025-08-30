@@ -111,6 +111,9 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         throw new Error('Popup foi bloqueado pelo navegador. Permita popups e tente novamente.');
       } else if (error.code === 'auth/popup-closed-by-user') {
         throw new Error('Login cancelado pelo usuário.');
+      } else if (error.code === 'auth/unauthorized-domain') {
+        const currentDomain = window.location.hostname;
+        throw new Error(`Domínio não autorizado: ${currentDomain}. Adicione este domínio exato no Firebase Console: Authentication > Settings > Authorized domains.`);
       } else if (error.code === 'auth/configuration-not-found') {
         throw new Error('Google Sign-In não configurado. Configure no Firebase Console.');
       }
