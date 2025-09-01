@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Offline - AuthFlow</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+      color: white;
+    }
+    
+    .offline-container {
+      text-align: center;
+      max-width: 400px;
+      background: rgba(255, 255, 255, 0.1);
+      backdrop-filter: blur(10px);
+      padding: 40px 30px;
+      border-radius: 20px;
+      border: 1px solid rgba(255, 255, 255, 0.2);
+    }
+    
+    .offline-icon {
+      width: 80px;
+      height: 80px;
+      margin: 0 auto 20px;
+      background: rgba(255, 255, 255, 0.2);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 32px;
+    }
+    
+    h1 {
+      font-size: 24px;
+      margin-bottom: 16px;
+      font-weight: 600;
+    }
+    
+    p {
+      font-size: 16px;
+      line-height: 1.5;
+      margin-bottom: 30px;
+      opacity: 0.9;
+    }
+    
+    .retry-button {
+      background: rgba(255, 255, 255, 0.2);
+      color: white;
+      border: 1px solid rgba(255, 255, 255, 0.3);
+      padding: 12px 24px;
+      border-radius: 25px;
+      cursor: pointer;
+      font-size: 16px;
+      font-weight: 500;
+      transition: all 0.3s ease;
+    }
+    
+    .retry-button:hover {
+      background: rgba(255, 255, 255, 0.3);
+      transform: translateY(-2px);
+    }
+    
+    .features {
+      margin-top: 30px;
+      text-align: left;
+    }
+    
+    .features h3 {
+      font-size: 18px;
+      margin-bottom: 12px;
+      text-align: center;
+    }
+    
+    .features ul {
+      list-style: none;
+      opacity: 0.8;
+    }
+    
+    .features li {
+      padding: 8px 0;
+      font-size: 14px;
+    }
+    
+    .features li::before {
+      content: "✓ ";
+      color: #4ade80;
+      font-weight: bold;
+      margin-right: 8px;
+    }
+  </style>
+</head>
+<body>
+  <div class="offline-container">
+    <div class="offline-icon">
+      📱
+    </div>
+    
+    <h1>Você está offline</h1>
+    <p>Não foi possível conectar à internet. Verifique sua conexão e tente novamente.</p>
+    
+    <button class="retry-button" onclick="window.location.reload()">
+      Tentar Novamente
+    </button>
+    
+    <div class="features">
+      <h3>Recursos Disponíveis</h3>
+      <ul>
+        <li>Interface otimizada para mobile</li>
+        <li>Design responsivo e moderno</li>
+        <li>Navegação rápida e intuitiva</li>
+        <li>Autenticação segura com Firebase</li>
+      </ul>
+    </div>
+  </div>
+
+  <script>
+    // Auto-retry when online
+    window.addEventListener('online', () => {
+      window.location.reload();
+    });
+    
+    // Show connection status
+    window.addEventListener('offline', () => {
+      console.log('Gone offline');
+    });
+    
+    window.addEventListener('online', () => {
+      console.log('Back online');
+    });
+  </script>
+</body>
+</html>

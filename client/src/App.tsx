@@ -13,6 +13,8 @@ import Home from "@/pages/Home";
 import Profile from "@/pages/Profile";
 import ProtectedRoute from "@/components/ProtectedRoute";
 import BottomNavigation from "@/components/BottomNavigation";
+import PWAInstallPrompt from "@/components/PWAInstallPrompt";
+import OfflineIndicator from "@/components/OfflineIndicator";
 import NotFound from "@/pages/not-found";
 
 function MainApp() {
@@ -57,6 +59,8 @@ function App() {
         <TooltipProvider>
           <Toaster />
           <Router />
+          <PWAInstallPrompt />
+          <OfflineIndicator />
         </TooltipProvider>
       </QueryClientProvider>
     </AuthProvider>

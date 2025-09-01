@@ -1,8 +1,8 @@
-# Firebase Auth App - Mobile First
+# AuthFlow - Progressive Web App with Firebase Auth
 
 ## Overview
 
-This is a mobile-first React application with Firebase authentication and user profile management. The app features a clean, modern interface built with React, TypeScript, and Tailwind CSS, following a mobile-first design approach. It includes user authentication (login/register), profile management, and a responsive UI with bottom navigation.
+This is a mobile-first Progressive Web App (PWA) with Firebase authentication and user profile management. The app features a clean, modern interface built with React, TypeScript, and Tailwind CSS, following a mobile-first design approach. It includes user authentication (login/register/password reset), Google Sign-In, profile management, offline support, and installable PWA capabilities with a responsive UI and bottom navigation.
 
 ## User Preferences
 
@@ -12,11 +12,13 @@ Preferred communication style: Simple, everyday language.
 
 ### Frontend Architecture
 - **Framework**: React 18 with TypeScript for type safety and modern development
+- **PWA Features**: Progressive Web App with service worker, offline support, and installable capabilities
 - **Styling**: Tailwind CSS with shadcn/ui component library for consistent, accessible UI components
 - **Routing**: Wouter for lightweight client-side routing
 - **State Management**: React Context for authentication state, TanStack Query for server state management
 - **UI Components**: Comprehensive shadcn/ui component system with Radix UI primitives
 - **Mobile-First Design**: Bottom navigation pattern optimized for mobile devices
+- **Offline Support**: Service worker caching, offline indicators, and background sync
 
 ### Backend Architecture (Minimal)
 - **Server**: Express.js with TypeScript for API endpoints
@@ -43,6 +45,7 @@ Preferred communication style: Simple, everyday language.
 - **Forms**: React Hook Form with Zod validation for type-safe form handling
 - **Protected Routes**: Route guards for authenticated content
 - **Toast Notifications**: Radix UI Toast system for user feedback
+- **PWA Components**: Install prompts, offline indicators, connection status, and app sharing
 
 ### Development Tools
 - **Build System**: Vite for fast development and optimized production builds
